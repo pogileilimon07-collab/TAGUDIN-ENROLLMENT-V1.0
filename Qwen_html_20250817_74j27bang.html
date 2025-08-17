@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tagudin National High School - Online Enrollment</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+  <div class="container" id="mainPage">
+    <header>
+      <img src="https://tse3.mm.bing.net/th/id/OIP._ADQTDMHKNDaTHEmgKGq_gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Tagudin National High School Logo" class="logo"/>
+      <h1>Online Enrollment</h1>
+      <h2>Tagudin National High School</h2>
+    </header>
+
+    <section class="form-section">
+      <h3>Student Information</h3>
+      <form id="studentForm">
+        <div class="name-fields">
+          <input type="text" id="firstName" placeholder="First Name" required />
+          <input type="text" id="middleName" placeholder="Middle Name" required />
+          <input type="text" id="lastName" placeholder="Last Name" required />
+        </div>
+
+        <div class="row">
+          <label>Birth Date:</label>
+          <input type="date" id="birthDate" required />
+        </div>
+
+        <div class="row">
+          <label>Gender:</label>
+          <select id="gender" required>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label>Address:</label>
+          <input type="text" id="address" placeholder="Complete Address" required />
+        </div>
+
+        <div class="row">
+          <label>Contact Number:</label>
+          <input type="tel" id="contact" placeholder="09XXXXXXXXX" required pattern="09[0-9]{9}" />
+        </div>
+
+        <div class="row">
+          <label>Email:</label>
+          <input type="email" id="email" placeholder="example@domain.com" required />
+        </div>
+
+        <div class="row">
+          <label>Course:</label>
+          <select id="course" required onchange="loadQuestions(this.value)">
+            <option value="">Select Course</option>
+            <option value="Social Science Inclined">Social Science Inclined</option>
+            <option value="Architecture, Engineering and Aviation">Architecture, Engineering and Aviation</option>
+            <option value="Teaching">Teaching</option>
+            <option value="Uniform Service Professions">Uniform Service Professions</option>
+            <option value="Travel Attendant and Stewards">Travel Attendant and Stewards</option>
+            <option value="Business/Accountancy">Business/Accountancy</option>
+            <option value="Industrial Arts – EIM">Industrial Arts – EIM</option>
+            <option value="Ship deck and Maritime">Ship deck and Maritime</option>
+            <option value="Hospitality and Tourism">Hospitality and Tourism</option>
+            <option value="ICT">ICT</option>
+            <option value="ALS">ALS</option>
+          </select>
+        </div>
+
+        <button type="button" onclick="validateAndProceed()">Proceed to Assessment</button>
+      </form>
+    </section>
+
+    <p style="text-align:center; margin-top:50px;">
+      <a href="#" onclick="event.preventDefault(); document.getElementById('mainPage').style.display='none'; document.getElementById('adminLogin').style.display='block';" style="color:#6a11cb; font-size:0.9em;">
+        Admin Login
+      </a>
+    </p>
+  </div>
+
+  <!-- Questions Section -->
+  <div class="container" id="questionsPage" style="display:none;">
+    <h2 id="questionCourseTitle"></h2>
+    <p>Please answer the following questions in complete sentences.</p>
+    <form id="questionForm">
+      <div id="questionsContainer"></div>
+      <button type="submit">Submit Answers</button>
+    </form>
+  </div>
+
+  <!-- Results Page -->
+  <div class="container" id="resultsPage" style="display:none; text-align: center;">
+    <h2>Enrollment Result</h2>
+    <p id="resultMessage"></p>
+    <div id="certificateSection" style="display:none; margin:30px 0;">
+      <h3>🎉 Enrollment Certificate</h3>
+      <p>This certifies that <strong id="certName"></strong> has been accepted into the <strong id="certCourse"></strong> program.</p>
+      <p>Date: <span id="certDate"></span></p>
+      <button onclick="printCertificate()">Print Certificate</button>
+    </div>
+    <button onclick="location.reload()">Back to Home</button>
+  </div>
+
+  <!-- Admin Login Page -->
+  <div class="container" id="adminLogin" style="display:none; text-align: center;">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPass" placeholder="Enter Password" />
+    <button onclick="adminLogin()">Login</button>
+    <p id="loginError" style="color: red; display: none;">Incorrect password!</p>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="container" id="adminDashboard" style="display:none;">
+    <h2>Enrolled Students (A-Z)</h2>
+    <button onclick="downloadAllStudentsPDF()">Download All as PDF</button>
+    <button onclick="goBackToLogin()">Logout</button>
+    <div id="studentsData"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
